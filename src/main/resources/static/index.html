@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System | Commercial Credit Portfolio</title>
+
+    <!-- 1. Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- 2. Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- 3. Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- 4. Custom Application Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ===================================================================
+         TOP NAVIGATION BAR (Mobile & Desktop)
+         =================================================================== -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm px-3 py-2">
+        <div class="container-fluid">
+            <!-- Mobile Sidebar Toggle Button -->
+            <button class="btn btn-outline-light d-lg-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
+                <i class="bi bi-list fs-5"></i>
+            </button>
+
+            <!-- Brand Logo & Title -->
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-semibold" href="#">
+                <span class="brand-icon bg-primary text-white rounded-3 d-flex align-items-center justify-content-center">
+                    <i class="bi bi-people-fill"></i>
+                </span>
+                <span>EMS<span class="text-primary">.Portal</span></span>
+            </a>
+
+            <!-- User Info Badge & Status Indicator -->
+            <div class="d-flex align-items-center gap-3 ms-auto">
+                <span class="badge bg-success-subtle text-success border border-success-subtle d-none d-sm-inline-flex align-items-center gap-1 px-2 py-1">
+                    <span class="status-indicator-dot bg-success"></span> API Connected
+                </span>
+                <div class="d-flex align-items-center gap-2 text-light">
+                    <div class="user-avatar rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold">
+                        A
+                    </div>
+                    <span class="d-none d-md-inline small fw-medium">Admin User</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===================================================================
+         MAIN WRAPPER (Sidebar + Main Content Area)
+         =================================================================== -->
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+
+            <!-- 1. DESKTOP PERMANENT SIDEBAR (Hidden on mobile/tablet) -->
+            <aside class="col-lg-2 d-none d-lg-block bg-body-tertiary border-end min-vh-100 sidebar p-3">
+                <div class="sidebar-heading text-uppercase text-muted fw-bold small mb-3">Navigation</div>
+                <ul class="nav nav-pills flex-column gap-1 mb-4">
+                    <li class="nav-item">
+                        <a href="#dashboard-section" class="nav-link active d-flex align-items-center gap-2" id="nav-dashboard">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#employees-section" class="nav-link d-flex align-items-center gap-2 text-dark" id="nav-employees">
+                            <i class="bi bi-person-lines-fill"></i> Directory
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="sidebar-heading text-uppercase text-muted fw-bold small mb-3">System Information</div>
+                <div class="card border-0 bg-light-subtle p-3 rounded-3 small">
+                    <div class="text-muted mb-1">Architecture</div>
+                    <div class="fw-semibold text-dark mb-2">Spring Boot + MySQL</div>
+                    <div class="text-muted mb-1">Frontend Client</div>
+                    <div class="fw-semibold text-dark mb-2">jQuery 3.7.1 AJAX</div>
+                    <div class="text-muted mb-1">API Protocol</div>
+                    <div class="badge bg-primary-subtle text-primary border border-primary-subtle">RESTful JSON</div>
+                </div>
+            </aside>
+
+            <!-- 2. MOBILE OFFCANVAS SIDEBAR (Drawer for screens < 992px) -->
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+                <div class="offcanvas-header bg-dark text-white">
+                    <h5 class="offcanvas-title d-flex align-items-center gap-2" id="sidebarOffcanvasLabel">
+                        <i class="bi bi-people-fill text-primary"></i> EMS Portal
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body p-3">
+                    <ul class="nav nav-pills flex-column gap-2">
+                        <li class="nav-item">
+                            <a href="#dashboard-section" class="nav-link active d-flex align-items-center gap-2" data-bs-dismiss="offcanvas">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#employees-section" class="nav-link text-dark d-flex align-items-center gap-2" data-bs-dismiss="offcanvas">
+                                <i class="bi bi-person-lines-fill"></i> Directory
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 3. MAIN CONTENT CONTAINER -->
+            <main class="col-12 col-lg-10 p-3 p-md-4 main-content">
+
+                <!-- SECTION A: DASHBOARD OVERVIEW & ANALYTICS CARDS -->
+                <section id="dashboard-section" class="mb-4">
+                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-3">
+                        <div>
+                            <h2 class="h4 fw-bold mb-0">Overview Analytics</h2>
+                            <p class="text-muted small mb-0">Live aggregated metrics calculated directly from MySQL</p>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1 self-start" id="btn-refresh-stats">
+                            <i class="bi bi-arrow-clockwise"></i> Refresh Stats
+                        </button>
+                    </div>
+
+                    <div class="row g-3">
+                        <!-- Stat Card 1: Total Employees -->
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card stat-card border-0 shadow-sm rounded-3 h-100 p-3 border-start border-4 border-primary">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="text-uppercase text-muted fw-semibold small">Total Employees</div>
+                                        <div class="h3 fw-bold my-1" id="stat-total-employees">--</div>
+                                        <div class="text-muted small">Registered headcount</div>
+                                    </div>
+                                    <div class="stat-icon bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people fs-4"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stat Card 2: Active Employees -->
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card stat-card border-0 shadow-sm rounded-3 h-100 p-3 border-start border-4 border-success">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="text-uppercase text-muted fw-semibold small">Active Staff</div>
+                                        <div class="h3 fw-bold my-1 text-success" id="stat-active-employees">--</div>
+                                        <div class="text-muted small">On active payroll</div>
+                                    </div>
+                                    <div class="stat-icon bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-person-check fs-4"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stat Card 3: Inactive Employees -->
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card stat-card border-0 shadow-sm rounded-3 h-100 p-3 border-start border-4 border-secondary">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="text-uppercase text-muted fw-semibold small">Inactive Staff</div>
+                                        <div class="h3 fw-bold my-1 text-secondary" id="stat-inactive-employees">--</div>
+                                        <div class="text-muted small">Suspended or resigned</div>
+                                    </div>
+                                    <div class="stat-icon bg-secondary-subtle text-secondary rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-person-slash fs-4"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stat Card 4: Total Departments -->
+                        <div class="col-12 col-sm-6 col-xl-3">
+                            <div class="card stat-card border-0 shadow-sm rounded-3 h-100 p-3 border-start border-4 border-info">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="text-uppercase text-muted fw-semibold small">Departments</div>
+                                        <div class="h3 fw-bold my-1 text-info" id="stat-total-departments">--</div>
+                                        <div class="text-muted small">Distinct business units</div>
+                                    </div>
+                                    <div class="stat-icon bg-info-subtle text-info rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-buildings fs-4"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION B: EMPLOYEE MANAGEMENT (SEARCH, FILTER & TABLE) -->
+                <section id="employees-section" class="card border-0 shadow-sm rounded-3 mb-4">
+                    <div class="card-header bg-white border-bottom py-3 px-3 px-md-4">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                            <div>
+                                <h3 class="h5 fw-bold mb-1">Employee Directory</h3>
+                                <p class="text-muted small mb-0">Search, filter, inspect, edit, and manage employee profiles</p>
+                            </div>
+                            <button type="button" class="btn btn-primary d-flex align-items-center gap-2 align-self-start align-self-md-auto" id="btn-open-add-modal">
+                                <i class="bi bi-person-plus-fill"></i> Add New Employee
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SEARCH AND FILTER CONTROLS BAR -->
+                    <div class="card-body border-bottom bg-light-subtle p-3 p-md-4">
+                        <form id="filter-form" class="row g-2 align-items-center">
+                            <!-- Search by Name Substring -->
+                            <div class="col-12 col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0 text-muted">
+                                        <i class="bi bi-search"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="search-input" placeholder="Search by first or last name..." autocomplete="off">
+                                </div>
+                            </div>
+
+                            <!-- Filter by Department Dropdown -->
+                            <div class="col-12 col-sm-6 col-md-3">
+                                <select class="form-select" id="filter-department">
+                                    <option value="">All Departments</option>
+                                    <option value="Information Technology">Information Technology</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Human Resources">Human Resources</option>
+                                    <option value="Operations">Operations</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Legal">Legal</option>
+                                </select>
+                            </div>
+
+                            <!-- Filter by Employment Status Dropdown -->
+                            <div class="col-12 col-sm-6 col-md-3">
+                                <select class="form-select" id="filter-status">
+                                    <option value="">All Statuses</option>
+                                    <option value="ACTIVE">Active</option>
+                                    <option value="INACTIVE">Inactive</option>
+                                </select>
+                            </div>
+
+                            <!-- Reset Filters Button -->
+                            <div class="col-12 col-md-2 d-grid">
+                                <button type="button" class="btn btn-outline-secondary d-flex align-items-center justify-content-center gap-1" id="btn-reset-filters">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Reset
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- EMPLOYEE DATA DISPLAY AREA -->
+                    <div class="card-body p-0">
+                        <!-- Loading Spinner Overlay -->
+                        <div id="loading-spinner" class="text-center py-5 d-none">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading employees...</span>
+                            </div>
+                            <div class="text-muted small mt-2">Fetching employee records from server...</div>
+                        </div>
+
+                        <!-- Empty State Notification (Shown when 0 records match) -->
+                        <div id="empty-state" class="text-center py-5 d-none">
+                            <div class="text-muted mb-2">
+                                <i class="bi bi-people display-4"></i>
+                            </div>
+                            <h4 class="h6 fw-semibold text-dark">No employees found</h4>
+                            <p class="text-muted small mb-3">No matching records meet the specified search or filter criteria.</p>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="btn-empty-reset">
+                                Clear Filters
+                            </button>
+                        </div>
+
+                        <!-- Responsive Table Container -->
+                        <div class="table-responsive" id="table-container">
+                            <table class="table table-hover align-middle mb-0" id="employee-table">
+                                <thead class="table-light text-uppercase small text-muted">
+                                    <tr>
+                                        <th scope="col" class="ps-3">Code</th>
+                                        <th scope="col">Employee Name</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Department</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Job Title</th>
+                                        <th scope="col" class="d-none d-xl-table-cell">Salary (LKR)</th>
+                                        <th scope="col" class="d-none d-lg-table-cell">Hire Date</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col" class="text-end pe-3">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="employee-table-body">
+                                    <!-- Rendered dynamically by jQuery AJAX in employee.js -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Table Footer Summary -->
+                    <div class="card-footer bg-white border-top py-2 px-3 d-flex justify-content-between align-items-center">
+                        <span class="text-muted small" id="record-count-indicator">Showing 0 records</span>
+                        <span class="badge bg-light text-muted border">Live Sync Active</span>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- ===================================================================
+         MODAL: ADD / EDIT EMPLOYEE FORM
+         =================================================================== -->
+    <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow">
+                <!-- Modal Header -->
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title d-flex align-items-center gap-2" id="employeeModalLabel">
+                        <i class="bi bi-person-plus-fill text-primary" id="modal-icon"></i>
+                        <span id="modal-title-text">Add New Employee</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Modal Body Form -->
+                <form id="employee-form" novalidate>
+                    <div class="modal-body p-4">
+                        <!-- Hidden field holding Database ID (used only during UPDATE) -->
+                        <input type="hidden" id="employee-id">
+
+                        <!-- General Alert Container for Backend Conflicts (409) or Server Errors (500) -->
+                        <div class="alert alert-danger d-none py-2 px-3 small" id="modal-alert" role="alert"></div>
+
+                        <div class="row g-3">
+                            <!-- Employee Code -->
+                            <div class="col-12 col-md-4">
+                                <label for="employeeCode" class="form-label small fw-semibold">Employee Code <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="employeeCode" placeholder="e.g. EMP-001" required maxlength="20">
+                                <div class="invalid-feedback small" id="error-employeeCode">Employee code is required.</div>
+                            </div>
+
+                            <!-- First Name -->
+                            <div class="col-12 col-md-4">
+                                <label for="firstName" class="form-label small fw-semibold">First Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="firstName" placeholder="First name" required maxlength="50">
+                                <div class="invalid-feedback small" id="error-firstName">First name is required.</div>
+                            </div>
+
+                            <!-- Last Name -->
+                            <div class="col-12 col-md-4">
+                                <label for="lastName" class="form-label small fw-semibold">Last Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="lastName" placeholder="Last name" required maxlength="50">
+                                <div class="invalid-feedback small" id="error-lastName">Last name is required.</div>
+                            </div>
+
+                            <!-- Email Address -->
+                            <div class="col-12 col-md-6">
+                                <label for="email" class="form-label small fw-semibold">Email Address <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="email" placeholder="name@company.lk" required maxlength="100">
+                                <div class="invalid-feedback small" id="error-email">A valid email is required.</div>
+                            </div>
+
+                            <!-- Phone Number -->
+                            <div class="col-12 col-md-6">
+                                <label for="phoneNumber" class="form-label small fw-semibold">Phone Number <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="phoneNumber" placeholder="e.g. +94771234567" required maxlength="20">
+                                <div class="invalid-feedback small" id="error-phoneNumber">Valid phone number required (10-20 digits).</div>
+                            </div>
+
+                            <!-- Department -->
+                            <div class="col-12 col-md-6">
+                                <label for="department" class="form-label small fw-semibold">Department <span class="text-danger">*</span></label>
+                                <select class="form-select" id="department" required>
+                                    <option value="" disabled selected>Select Department</option>
+                                    <option value="Information Technology">Information Technology</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Human Resources">Human Resources</option>
+                                    <option value="Operations">Operations</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Legal">Legal</option>
+                                </select>
+                                <div class="invalid-feedback small" id="error-department">Please select a department.</div>
+                            </div>
+
+                            <!-- Job Title -->
+                            <div class="col-12 col-md-6">
+                                <label for="jobTitle" class="form-label small fw-semibold">Job Title <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="jobTitle" placeholder="e.g. Software Engineer" required maxlength="50">
+                                <div class="invalid-feedback small" id="error-jobTitle">Job title is required.</div>
+                            </div>
+
+                            <!-- Salary -->
+                            <div class="col-12 col-md-4">
+                                <label for="salary" class="form-label small fw-semibold">Salary (LKR) <span class="text-danger">*</span></label>
+                                <input type="number" step="0.01" min="0" class="form-control" id="salary" placeholder="0.00" required>
+                                <div class="invalid-feedback small" id="error-salary">Salary must be a non-negative number.</div>
+                            </div>
+
+                            <!-- Hire Date -->
+                            <div class="col-12 col-md-4">
+                                <label for="hireDate" class="form-label small fw-semibold">Hire Date <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="hireDate" required>
+                                <div class="invalid-feedback small" id="error-hireDate">Hire date cannot be in the future.</div>
+                            </div>
+
+                            <!-- Employment Status -->
+                            <div class="col-12 col-md-4">
+                                <label for="employmentStatus" class="form-label small fw-semibold">Employment Status <span class="text-danger">*</span></label>
+                                <select class="form-select" id="employmentStatus" required>
+                                    <option value="ACTIVE" selected>ACTIVE</option>
+                                    <option value="INACTIVE">INACTIVE</option>
+                                </select>
+                                <div class="invalid-feedback small" id="error-employmentStatus">Employment status is required.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Actions Footer -->
+                    <div class="modal-footer bg-light px-4 py-2">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary d-flex align-items-center gap-1" id="btn-save-employee">
+                            <span class="spinner-border spinner-border-sm d-none" id="save-spinner" role="status" aria-hidden="true"></span>
+                            <span id="btn-save-text">Save Employee</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================
+         MODAL: VIEW EMPLOYEE DETAILS
+         =================================================================== -->
+    <div class="modal fade" id="viewEmployeeModal" tabindex="-1" aria-labelledby="viewEmployeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title d-flex align-items-center gap-2" id="viewEmployeeModalLabel">
+                        <i class="bi bi-person-badge text-primary"></i> Employee Profile
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="text-center mb-4">
+                        <div class="view-avatar rounded-circle bg-primary-subtle text-primary fw-bold mx-auto mb-2 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-person fs-1"></i>
+                        </div>
+                        <h4 class="h5 fw-bold mb-1" id="view-fullname">--</h4>
+                        <span class="badge bg-secondary" id="view-code">--</span>
+                        <span class="badge bg-success ms-1" id="view-status">--</span>
+                    </div>
+
+                    <ul class="list-group list-group-flush small">
+                        <li class="list-group-item d-flex justify-content-between px-0 py-2">
+                            <span class="text-muted">Department</span>
+                            <span class="fw-semibold text-dark" id="view-department">--</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0 py-2">
+                            <span class="text-muted">Job Title</span>
+                            <span class="fw-semibold text-dark" id="view-jobtitle">--</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0 py-2">
+                            <span class="text-muted">Email</span>
+                            <span class="fw-semibold text-dark" id="view-email">--</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0 py-2">
+                            <span class="text-muted">Phone</span>
+                            <span class="fw-semibold text-dark" id="view-phone">--</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0 py-2">
+                            <span class="text-muted">Salary</span>
+                            <span class="fw-semibold text-dark" id="view-salary">--</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0 py-2">
+                            <span class="text-muted">Hire Date</span>
+                            <span class="fw-semibold text-dark" id="view-hiredate">--</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0 py-2">
+                            <span class="text-muted">Created Timestamp</span>
+                            <span class="text-muted" id="view-createdat">--</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0 py-2">
+                            <span class="text-muted">Last Updated</span>
+                            <span class="text-muted" id="view-updatedat">--</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer bg-light px-4 py-2">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================
+         MODAL: DELETE CONFIRMATION DIALOG
+         =================================================================== -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-body text-center p-4">
+                    <div class="text-danger mb-3">
+                        <i class="bi bi-exclamation-triangle display-4"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Delete Employee?</h5>
+                    <p class="text-muted small mb-3">Are you sure you want to permanently delete <strong id="delete-employee-name">this employee</strong>? This action cannot be undone.</p>
+                    <input type="hidden" id="delete-employee-id">
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger btn-sm px-3 d-flex align-items-center gap-1" id="btn-confirm-delete">
+                            <span class="spinner-border spinner-border-sm d-none" id="delete-spinner" role="status" aria-hidden="true"></span>
+                            <span id="btn-delete-text">Delete</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================
+         LIVE TOAST NOTIFICATIONS (Success / Error alerts)
+         =================================================================== -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+        <div id="liveToast" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center gap-2" id="toast-message">
+                    <i class="bi bi-check-circle-fill fs-5" id="toast-icon"></i>
+                    <span>Operation completed successfully.</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================
+         FOOTER
+         =================================================================== -->
+    <footer class="bg-white border-top py-3 text-center text-muted small mt-auto">
+        <div class="container-fluid">
+            <span>Employee Management System &copy; 2026. Built with Spring Boot 3, MySQL 8, Bootstrap 5 &amp; jQuery AJAX.</span>
+        </div>
+    </footer>
+
+    <!-- ===================================================================
+         SCRIPTS: jQuery 3.7.1, Bootstrap 5.3 Bundle & Custom JS
+         =================================================================== -->
+    <!-- 1. jQuery Core (Loaded before application scripts) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <!-- 2. Bootstrap 5.3 JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- 3. Custom jQuery AJAX Application Controller -->
+    <script src="js/employee.js"></script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+/* ===================================================================
+   1. GLOBAL CSS VARIABLES & BASE RESET
+   =================================================================== */
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --secondary-color: #64748b;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --info-color: #06b6d4;
+    
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --border-color: #e2e8f0;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    
+    --sidebar-width: 260px;
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.07), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+    --card-shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* ===================================================================
+   2. TOP NAVIGATION & BRANDING
+   =================================================================== */
+.navbar {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.brand-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 1.1rem;
+}
+
+.user-avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 0.85rem;
+    background-color: var(--secondary-color);
+}
+
+/* Pulsating Live API Status Indicator */
+.status-indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    animation: status-pulse 2s infinite ease-in-out;
+}
+
+@keyframes status-pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+/* ===================================================================
+   3. DESKTOP SIDEBAR & NAVIGATION LINKS
+   =================================================================== */
+.sidebar {
+    background-color: #ffffff;
+    border-color: var(--border-color) !important;
+}
+
+.sidebar .nav-pills .nav-link {
+    color: var(--text-muted);
+    font-weight: 500;
+    padding: 0.65rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.sidebar .nav-pills .nav-link:hover {
+    color: var(--primary-color);
+    background-color: #eff6ff;
+}
+
+.sidebar .nav-pills .nav-link.active {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+/* ===================================================================
+   4. DASHBOARD KPI ANALYTICS CARDS
+   =================================================================== */
+.stat-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: var(--bg-card);
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover) !important;
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+/* ===================================================================
+   5. DATA TABLE & EMPLOYEE DIRECTORY
+   =================================================================== */
+#employee-table {
+    margin-bottom: 0;
+}
+
+#employee-table th {
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: var(--text-muted);
+    background-color: #f8fafc;
+    border-top: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.85rem 0.75rem;
+    white-space: nowrap;
+}
+
+#employee-table td {
+    padding: 0.85rem 0.75rem;
+    vertical-align: middle;
+    font-size: 0.875rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#employee-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+#employee-table tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+/* Status Badges */
+.badge-status-active {
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+    font-weight: 500;
+    padding: 0.35rem 0.65rem;
+}
+
+.badge-status-inactive {
+    background-color: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    font-weight: 500;
+    padding: 0.35rem 0.65rem;
+}
+
+/* Action Icon Buttons */
+.action-btn-group .btn {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.825rem;
+    border-radius: 0.375rem;
+    transition: all 0.15s ease;
+}
+
+/* Profile Modal Avatar */
+.view-avatar {
+    width: 68px;
+    height: 68px;
+}
+
+/* ===================================================================
+   6. RESPONSIVE DESIGN & MEDIA QUERIES
+   =================================================================== */
+
+/* Tablet & Smaller Screens (< 992px) */
+@media (max-width: 991.98px) {
+    .main-content {
+        padding: 1rem !important;
+    }
+    
+    .stat-card {
+        padding: 1rem !important;
+    }
+}
+
+/* Mobile Screens (< 768px) */
+@media (max-width: 767.98px) {
+    .stat-card .h3 {
+        font-size: 1.5rem;
+    }
+
+    .table-responsive {
+        border-radius: 0;
+        border: none;
+    }
+
+    /* Stack buttons for easy thumb touch on small screens */
+    .action-btn-group {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.25rem;
+    }
+
+    .action-btn-group .btn {
+        padding: 0.4rem 0.6rem;
+    }
+
+    /* Increase touch targets for mobile accessibility */
+    .modal-footer .btn,
+    #filter-form .btn,
+    #filter-form .form-select,
+    #filter-form .form-control {
+        min-height: 44px;
+    }
+}
+
+/* Small Viewports (360px - 390px, e.g., iPhone SE, Galaxy S) */
+@media (max-width: 390px) {
+    .navbar-brand span {
+        font-size: 1rem;
+    }
+    
+    .brand-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    #employee-table td, 
+    #employee-table th {
+        padding: 0.65rem 0.4rem;
+        font-size: 0.8rem;
+    }
+}
